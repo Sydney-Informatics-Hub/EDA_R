@@ -1,10 +1,9 @@
 ---
 title: "Exploratory Data Analysis in R"
-subtitle: "Tidy datasets are all alike, but every messy dataset is messy in its own way"
 output: learnr::tutorial
-  progressive: true
-  allow_skip: false
-  theme: "readable"
+progressive: true
+allow_skip: false
+theme: "readable"
 runtime: shiny_prerendered
 ---
 
@@ -24,10 +23,13 @@ library(GGally)
 theme_set(theme_minimal())
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 
+destfile <- here("data", "stack-overflow-developer-survey-2023.zip")
+if (!file.exists(destfile)){
 url <- 'https://cdn.stackoverflow.co/files/jo7n4k8s/production/49915bfd46d0902c3564fd9a06b509d08a20488c.zip/stack-overflow-developer-survey-2023.zip'
-destfile <- 'inst/tutorials/EDAinR/data/stack-overflow-developer-survey-2023.zip'
-download.file(url, destfile, method = "curl")
-zip_file <- here("inst/tutorials/EDAinR/data", "stack-overflow-developer-survey-2023.zip")
+download.file(url, destfile)
+}
+
+zip_file <- here("data", "stack-overflow-developer-survey-2023.zip")
 survey_raw <- readr::read_csv(unz(zip_file, 
                          'survey_results_public.csv'))
 
@@ -268,3 +270,182 @@ You can visit this page to learn more about tidyverse: <https://www.tidyverse.or
 -   In order to work with messy data easily, you'll have to get them into a tidy data format.
 :::
 
+## Inspection and cleaning
+
+Data cleaning is an iterative process:
+
+-   We won't get everything right the first time around;
+-   We might improve or find a better way;
+-   There isn't always a clear place to start, but we have to start somewhere.
+
+![The iterative process of EDA](images/research_framework.png)
+
+One good place to start is getting an overview of the dataset and use `glimpse()` to check for *data-type constraints*.
+
+> DATA-TYPE CONSTRAINTS: Make sure numbers are stored as numerical data types. A date should be stored as a date object, and so on.
+
+If you have a bunch of inconsistently named columns and it would be painful to fix them all by hand, the `clean_names()` function from the **janitor** package provides a useful automated cleaning. **janitor** has simple functions for *examining and cleaning dirty data*. `clean_names()` works in a `%>%` pipeline, and handles problematic variable names, especially those that are so well-preserved by `readr::read_csv()`.
+
+-   Parses letter cases and separators to a consistent format:
+
+    -   Default is to snake_case, but other cases like camelCase are available
+
+-   Handles special characters and spaces, including transliterating characters like `œ` to `oe`;
+
+-   Appends numbers to duplicated names;
+
+-   Converts "%" to "percent" and "\#" to "number" to retain meaning;
+
+-   Spacing (or lack thereof) around numbers is preserved
+
+::: callout-tip
+## It's your turn!
+
+Let's introduce a few major themes in this tidyverse. First, the pipe operator -- `%>%`. It helps simplify the code and makes things more readable. It takes what is on the left hand side and puts it in the right hand side's function.
+
+Clean the `data_raw` variable names with `clean_names()`, returning a `data_clean` object:
+
+```{r clean, exercise=TRUE}
+survey_cleaned <- survey_raw %>%
+  _____
+```
+
+```{r clean-solution}
+survey_cleaned <- survey_raw %>%
+  clean_names()
+```
+:::
+
+The above code takes the data frame `data_raw` and puts it into the `clean_names()` function. This does the same thing as `clean_names(data_raw)`:
+
+```{r}
+survey_cleaned <- clean_names(survey_raw)
+```
+
+### Get a glimpse of your data
+
+The `glimpse()` function of the *dplyr* package can help you to see what data you are working with. It prints for you columns running down the page, and data running across. This makes it possible to see every column in your data frame:
+
+![](images/glimpse.png)
+
+```{r}
+survey_cleaned %>%
+  glimpse()
+```
+
+The data we currently have contains 84 columns and that's a large amount of info. We can notice that:
+
+-   the first variable looks like a unique identifier. Each subject should have their own ID such that all data are properly attributed to that subject. Often, it can be helpful to have a way of recording the source of each row in our original dataset (in this case, our subject), so we can trace the data from this row as we work with the data. The `isid()` function returns a check TRUE/FALSE whether or not the variables together uniquely identify a row in the dataframe:
+
+```{r}
+isid(survey_cleaned, 
+     vars = c("response_id"), 
+     verbose = TRUE)
+```
+
+> UNIQUE CONSTRAINT: a particular observation unit identifiable and distinct from all other observational units
+
+-   most variables are categorical and some have too many levels. For example, the `coding_activities` variable has many levels. We may want to collapse these levels into fewer categories for several reasons:
+    -   Collapsing levels can simplify the analysis and interpretation of results, especially when dealing with a large number of categories;
+    -   In predictive modeling, reducing the number of levels in categorical variables can help improve model performance by reducing the complexity of the model;
+    -   Collapsing infrequent levels into broader categories can help address issues of sparsity, where certain levels have very few observations, which may lead to unreliable estimates.
+
+```{r}
+#count the frequency of each level in the 'coding_activities' variable
+#this variable represents whether respondents code as a hobby or only for work
+survey_cleaned %>%
+  count(coding_activities) %>%
+  arrange(desc(n))
+```
+
+-   some variable names are not easily understandable. For example, the column `converted_comp_yearly` stands for the annual salary of the respondents in USD. We can change the name of column to `salary_usd` for easier understanding.
+
+**Details on the questions asked in the survey are provided in the document *survey_result_schema.csv*:**
+
+```{r}
+zip_file_schema <- here("data", "stack-overflow-developer-survey-2023.zip")
+survey_schema <- read_csv(unz(zip_file_schema, 
+                         'survey_results_schema.csv')) %>%
+  clean_names()
+
+survey_schema
+```
+
+Now we can better rename those variables that are not easily understandable. Whenever you are creating a name for something in R, **be clear and descriptive**.
+
+```{r}
+survey_cleaned %>%
+  colnames()
+
+#columns to be renamed
+lookup <- c(salary_usd = "converted_comp_yearly", 
+            profession = "main_branch",
+            coding_as_hobby = "coding_activities",
+            years_professional_coding = "years_code_pro",
+            company_size = "org_size",
+            years_work_exp = "work_exp",
+            manager_role = "i_cor_pm")
+
+#rename columns
+survey_renamed <- survey_cleaned %>%
+  rename(all_of(lookup))
+
+survey_renamed %>%
+  colnames()
+```
+
+Let's have a look at the variable `coding_as_hobby`:
+
+```{r}
+survey_renamed %>%
+  count(coding_as_hobby) %>%
+   arrange(desc(n))
+```
+
+There are lots of values and in this case it would be much easier to make this variable binary (`yes`- the respondent codes outside of work (as hobby); `no`- the respondent doesn't code outside of work). When we want to add and/or change variables we can use `mutate()` from the *dplyr* package. We grab `data_clean`, and create a variable called `coding_as_hobby_clean` using the `coding_as_hobby` variable and assign it back into `data_clean`. The benefit is in the readability of the code. We repeat things like the name of the data frame much less:
+
+```{r}
+#map each value to either “yes” or “no”
+survey_hobby <- survey_renamed %>% 
+  mutate(coding_as_hobby_clean = case_when(
+    grepl("I don’t code outside of work", coding_as_hobby) ~ "no",
+    grepl("Bootstrapping a business", coding_as_hobby) ~ "no",
+    grepl("Freelance/contract work", coding_as_hobby) ~ "no",
+    TRUE ~ "yes"))
+```
+
+> The word "grepl" stands for "grep logical". The `grepl()` function in R searches for matches in characters or sequences of characters present in a given string. `grepl()` returns `TRUE` if the given pattern is present in the vector. Otherwise, it returns `FALSE`.
+
+::: callout-tip
+## It's your turn!
+
+How can you visualise how many respondents engage in coding as a hobby? Compare how the `coding_as_hobby` and `coding_as_hobby_clean` variables are visualised in a bar plot using the `geom_bar()` function from the *ggplot2* package:
+
+```{r bar_plot, exercise=TRUE}
+# coding_as_hobby variable
+survey_hobby %>%
+  ggplot() + 
+  ____(aes(x = ____)) +
+  theme_classic() #a classic-looking theme, with x and y axis lines and no gridlines
+
+# coding_as_hobby_clean variable
+survey_hobby %>%
+  ggplot() + 
+  ____(aes(x = ____)) +
+  theme_classic() 
+```
+
+```{r bar_plot-solution}
+# coding_as_hobby variable
+survey_hobby %>%
+  ggplot() + 
+  geom_bar(aes(x = coding_as_hobby)) +
+  theme_classic() #a classic-looking theme, with x and y axis lines and no gridlines
+
+# coding_as_hobby_clean variable
+survey_hobby %>%
+  ggplot() + 
+  geom_bar(aes(x = coding_as_hobby_clean)) +
+  theme_classic() 
+```
+:::
