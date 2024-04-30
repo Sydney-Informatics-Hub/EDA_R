@@ -2,10 +2,9 @@
 title: "Exploratory Data Analysis in R"
 subtitle: "Tidy datasets are all alike, but every messy dataset is messy in its own way"
 author: "Sydney Informatics Hub"
-output: learnr::tutorial
-toc-depth: 3
-progressive: true
-allow_skip: false
+output: 
+  learnr::tutorial
+    allow_skip: false
 theme: "readable"
 runtime: shiny_prerendered
 ---
@@ -172,18 +171,13 @@ survey_proc <- survey_remote %>%
 
 This tutorial aims at giving you a starter to independently work with your data throughout the *"data analysis lifecycle"* --- from **importing**, **cleaning**, **visualising** and **summarizing** the data to **analyzing**.
 
-![The data analysis lifecycle](images/data_loop.png)
+![](images/data_loop.png){width="50%"}
 
 To follow this tutorial, you need some familiarity with **tidyverse** packages like *dplyr* and *ggplot2*.
 
 **Now let's get started!**
 
-::: callout-note
 ## Learning objectives
-
--   Understand data-type constraints, checks and the role of data cleaning techniques in standardising data formats, handling missing values, and addressing outliers;
--   Develop exploratory data analysis skills to visualise data distributions, detect outliers, and explore relationships between variables.
-:::
 
 Incorrect or inconsistent data leads to false conclusions. And so, how well you clean and understand the data has a high impact on the quality of the results.
 
@@ -191,7 +185,12 @@ In fact, a simple algorithm can outweigh a complex one just because it was given
 
 For these reasons, it is important to have a step-by-step guideline, a cheat sheet, that walks through the quality checks to be applied.
 
-### The dataset
+With this tutorial you will:
+
+::: {.noteblock data-latex=""}
+-   Understand data-type constraints, checks and the role of data cleaning techniques in standardising data formats, handling missing values, and addressing outliers;
+-   Develop exploratory data analysis skills to visualise data distributions, detect outliers, and explore relationships between variables.
+:::
 
 ## The dataset
 
@@ -199,11 +198,11 @@ The *Stack Overflow Developer Survey* is a highly anticipated annual event that 
 
 This is the voice of the developer. Analysts, IT leaders, reporters, and other developers turn to this report to stay up to date with the evolving developer experience, technologies that are rising or falling in favor, and to understand where tech might be going next.
 
-EDA lacks a formal structure with a strict set of rules. In the early stages of EDA you are encouraged to explore every idea that comes to mind. While some of these ideas will prove fruitful, others may lead to dead ends. As your exploration continues, you will narrow down a few insightful findings that you’ll eventually write up and communicate to others.
+EDA lacks a formal structure with a strict set of rules. In the early stages of EDA you are encouraged to explore every idea that comes to mind. While some of these ideas will prove fruitful, others may lead to dead ends. As your exploration continues, you will narrow down a few insightful findings that you'll eventually write up and communicate to others.
 
 ### Import your data
 
-We can read .csv files into R using `read_csv()`. The first argument is the most important: the path to the file. You can think about the path as the address of the file: the file is called `survey_results_public.csv` and that it lives in the `data` folder.
+We can read .csv files into R using `read_csv()`. The first argument is the most important: the path to the file. You can think about the path as the address of the file: the file is called `survey_results_public.csv` and it is within the `stack-overflow-developer-survey-2023.zip` file.
 
 ```{r read_csv, exercise=TRUE}
 survey_zip_file <- "stack-overflow-developer-survey-2023.zip"
@@ -234,14 +233,14 @@ A dataset is messy or clean/tidy depending on how rows and columns are matched u
 
 > Ref. [*Hadley Wickham's 2014 "Tidy Data" paper in the Journal of Statistical Software*](https://vita.had.co.nz/papers/tidy-data.pdf)
 
-![](images/tidy_data.png)
+![](images/tidy_data.png){width="50%"}
 
 **Messy data** is any other arrangement of the data. There are common problems that can arise when dealing with messy datasets. There are a number of actions you can take on a dataset to tidy the data depending on the problem. These include: *filtering*, *transforming*, *modifying variables*, *aggregating the data*, and *sorting the order of the observations*. We will see some of this later in this tutorial.
 
 Here is a [link](https://ds4biomed.tech/clean-data-tidy) to some material you can use to better understand how to tidy messy datasets.
 
 ::: callout-tip
-## It's your turn!
+#### It's your turn!
 
 Have a look at your `survey_raw` object. It is stored as a tibble.
 
@@ -256,14 +255,14 @@ ____
 
 Because the data is in tibble format, we can gain a lot of information by just viewing the data itself.
 
-![](images/tibble.png)
+![](images/tibble.png){width="50%"}
 
 In this course, we'll be using **tidyverse** packages for getting to know your data, manipulating it, and visualizing it. The tidyverse is a collection of R packages designed for data science that share common APIs and an underlying philosophy. When you type library(tidyverse), what you're doing is loading this collection of related packages for handling data using tidy data principles. These packages include *ggplot2* for data visualization, and *dplyr* and *tidyr* for data manipulation and transformation. During this course, we'll point out when we use functions from these different packages.
 
 You can visit this page to learn more about tidyverse: <https://www.tidyverse.org/learn/>.
 
 ::: callout-note
-## Summary
+### Summary
 
 -   You can import data into R using the `read_csv()` function;
 -   In order to work with messy data easily, you'll have to get them into a tidy data format.
@@ -277,7 +276,7 @@ Data cleaning is an iterative process:
 -   We might improve or find a better way;
 -   There isn't always a clear place to start, but we have to start somewhere.
 
-![The iterative process of EDA](images/research_framework.png)
+![The iterative process of EDA](images/research_framework.png){width="50%"}
 
 One good place to start is getting an overview of the dataset and use `glimpse()` to check for *data-type constraints*.
 
@@ -298,7 +297,7 @@ If you have a bunch of inconsistently named columns and it would be painful to f
 -   Spacing (or lack thereof) around numbers is preserved
 
 ::: callout-tip
-## It's your turn!
+#### It's your turn!
 
 Let's introduce a few major themes in this tidyverse. First, the pipe operator -- `%>%`. It helps simplify the code and makes things more readable. It takes what is on the left hand side and puts it in the right hand side's function.
 
@@ -312,7 +311,7 @@ survey_cleaned <- survey_raw %>%
 
 The above code takes the data frame `data_raw` and puts it into the `clean_names()` function. This does the same thing as `clean_names(data_raw)`:
 
-```{r, exercise=TRUE}
+```{r clean-base, exercise=TRUE}
 survey_cleaned <- clean_names(survey_raw)
 ```
 
@@ -320,9 +319,9 @@ survey_cleaned <- clean_names(survey_raw)
 
 The `glimpse()` function of the *dplyr* package can help you to see what data you are working with. It prints for you columns running down the page, and data running across. This makes it possible to see every column in your data frame:
 
-![](images/glimpse.png)
+![](images/glimpse.png){width="50%"}
 
-```{r, exercise=TRUE}
+```{r glimpse, exercise=TRUE}
 survey_cleaned %>%
   ____()
 ```
@@ -331,7 +330,7 @@ The data we currently have contains 84 columns and that's a large amount of info
 
 -   the first variable looks like a unique identifier. Each subject should have their own ID such that all data are properly attributed to that subject. Often, it can be helpful to have a way of recording the source of each row in our original dataset (in this case, our subject), so we can trace the data from this row as we work with the data. The `isid()` function returns a check TRUE/FALSE whether or not the variables together uniquely identify a row in the dataframe:
 
-```{r, exercise=TRUE}
+```{r isid, exercise=TRUE}
 ____(survey_cleaned, 
      vars = c("response_id"), 
      verbose = TRUE)
@@ -344,21 +343,21 @@ ____(survey_cleaned,
     -   In predictive modeling, reducing the number of levels in categorical variables can help improve model performance by reducing the complexity of the model;
     -   Collapsing infrequent levels into broader categories can help address issues of sparsity, where certain levels have very few observations, which may lead to unreliable estimates.
 
-```{r, exercise=TRUE}
-#count the frequency of each level in the 'coding_activities' variable
-#this variable represents whether respondents code as a hobby or only for work
+The `count()` functions allows us to count the frequency of each level in the `coding_activities` variable. This variable represents whether respondents code as a hobby or only for work:
+
+```{r count, exercise=TRUE}
 survey_cleaned %>%
-  count(coding_activities) %>%
+  ____(coding_activities) %>%
   arrange(desc(n))
 ```
 
 -   some variable names are not easily understandable. For example, the column `converted_comp_yearly` stands for the annual salary of the respondents in USD. We can change the name of column to `salary_usd` for easier understanding.
 
-**Details on the questions asked in the survey are provided in the document *survey_result_schema.csv*:**
+**Details on the questions asked in the survey are provided in the document *survey_result_schema.csv***. You can read this document in the same way you read in the stackoverflow survey dataset, with the `read_csv()` function:
 
-```{r, exercise=TRUE}
+```{r schema, exercise=TRUE}
 zip_file_schema <- "stack-overflow-developer-survey-2023.zip"
-survey_schema <- read_csv(unz(zip_file_schema, 
+survey_schema <- ____(unz(zip_file_schema, 
                          'survey_results_schema.csv')) %>%
   clean_names()
 
@@ -367,7 +366,7 @@ survey_schema
 
 Now we can use the `rename()` function to better rename those variables that are not easily understandable. Whenever you are creating a name for something in R, **be clear and descriptive**.
 
-```{r, exercise=TRUE}
+```{r rename, exercise=TRUE}
 survey_cleaned %>%
   colnames()
 
@@ -388,17 +387,17 @@ survey_renamed %>%
   colnames()
 ```
 
-Let's have a look at the variable `coding_as_hobby`:
+Let's count the frequency of each level in the `coding_as_hobby` variable:
 
-```{r, exercise=TRUE}
+```{r count2, exercise=TRUE}
 survey_renamed %>%
-  count(coding_as_hobby) %>%
+  ____(coding_as_hobby) %>%
    arrange(desc(n))
 ```
 
 There are lots of values and in this case it would be much easier to make this variable binary (`yes`- the respondent codes outside of work (as hobby); `no`- the respondent doesn't code outside of work). When we want to add and/or change variables we can use `mutate()` from the *dplyr* package. We grab `data_clean`, and create a variable called `coding_as_hobby_clean` using the `coding_as_hobby` variable and assign it back into `data_clean`. The benefit is in the readability of the code. We repeat things like the name of the data frame much less:
 
-```{r, exercise=TRUE}
+```{r mutate, exercise=TRUE}
 #map each value to either “yes” or “no”
 survey_hobby <- survey_renamed %>% 
   ____(coding_as_hobby_clean = case_when(
@@ -411,7 +410,7 @@ survey_hobby <- survey_renamed %>%
 > The word "grepl" stands for "grep logical". The `grepl()` function in R searches for matches in characters or sequences of characters present in a given string. `grepl()` returns `TRUE` if the given pattern is present in the vector. Otherwise, it returns `FALSE`.
 
 ::: callout-tip
-## It's your turn!
+#### It's your turn!
 
 How can you visualise how many respondents engage in coding as a hobby? Compare how the `coding_as_hobby` and `coding_as_hobby_clean` variables are visualised in a bar plot using the `geom_bar()` function from the *ggplot2* package:
 
@@ -429,4 +428,3 @@ survey_hobby %>%
   theme_classic() 
 ```
 :::
-
