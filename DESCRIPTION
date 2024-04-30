@@ -6,18 +6,17 @@ Authors@R:
 Description: This tutorial provides a step-by-step guideline, a cheat sheet, that walks through the quality checks to be applied for a successfull Exploratory Data Analysis.
 License: CC BY 4.0
 Depends:
-  tidyverse
-Imports:
-  learnr,
   tidyverse,
+  learnr,
+  explore,
+  usydColours
+Imports:
   janitor,
   naniar,
   skimr,
-  explore,
   dplyr,
   eeptools,
   rio,
-  usydColours,
   GGally
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
