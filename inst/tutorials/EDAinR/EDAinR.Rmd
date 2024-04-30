@@ -1,6 +1,9 @@
 ---
 title: "Exploratory Data Analysis in R"
+subtitle: "Tidy datasets are all alike, but every messy dataset is messy in its own way"
+author: "Sydney Informatics Hub"
 output: learnr::tutorial
+toc-depth: 3
 progressive: true
 allow_skip: false
 theme: "readable"
@@ -209,13 +212,6 @@ survey_raw <- readr::____(unz(survey_zip_file,
                          'survey_results_public.csv'))
 ```
 
-```{r skim-solution}
-survey_zip_file <- "stack-overflow-developer-survey-2023.zip"
-
-survey_raw <- readr::read_csv(unz(survey_zip_file, 
-                         'survey_results_public.csv'))
-```
-
 You can read more about how to get different formats of data types into R [here](https://jhudatascience.org/tidyversecourse/get-data.html).
 
 Now that we have seen how to import a dataset, we can start the process of "cleaning" it. Cleaning, processing, wrangling, tidying, etc are all synonyms you may have heard being used for this process.
@@ -255,10 +251,6 @@ Is your dataset tidy or messy?
 
 ```{r tibble, exercise=TRUE}
 ____
-```
-
-```{r tibble-solution}
-survey_raw
 ```
 :::
 
@@ -316,16 +308,11 @@ Clean the `data_raw` variable names with `clean_names()`, returning a `data_clea
 survey_cleaned <- survey_raw %>%
   _____
 ```
-
-```{r clean-solution}
-survey_cleaned <- survey_raw %>%
-  clean_names()
-```
 :::
 
 The above code takes the data frame `data_raw` and puts it into the `clean_names()` function. This does the same thing as `clean_names(data_raw)`:
 
-```{r}
+```{r, exercise=TRUE}
 survey_cleaned <- clean_names(survey_raw)
 ```
 
@@ -335,17 +322,17 @@ The `glimpse()` function of the *dplyr* package can help you to see what data yo
 
 ![](images/glimpse.png)
 
-```{r}
+```{r, exercise=TRUE}
 survey_cleaned %>%
-  glimpse()
+  ____()
 ```
 
 The data we currently have contains 84 columns and that's a large amount of info. We can notice that:
 
 -   the first variable looks like a unique identifier. Each subject should have their own ID such that all data are properly attributed to that subject. Often, it can be helpful to have a way of recording the source of each row in our original dataset (in this case, our subject), so we can trace the data from this row as we work with the data. The `isid()` function returns a check TRUE/FALSE whether or not the variables together uniquely identify a row in the dataframe:
 
-```{r}
-isid(survey_cleaned, 
+```{r, exercise=TRUE}
+____(survey_cleaned, 
      vars = c("response_id"), 
      verbose = TRUE)
 ```
@@ -357,7 +344,7 @@ isid(survey_cleaned,
     -   In predictive modeling, reducing the number of levels in categorical variables can help improve model performance by reducing the complexity of the model;
     -   Collapsing infrequent levels into broader categories can help address issues of sparsity, where certain levels have very few observations, which may lead to unreliable estimates.
 
-```{r}
+```{r, exercise=TRUE}
 #count the frequency of each level in the 'coding_activities' variable
 #this variable represents whether respondents code as a hobby or only for work
 survey_cleaned %>%
@@ -369,7 +356,7 @@ survey_cleaned %>%
 
 **Details on the questions asked in the survey are provided in the document *survey_result_schema.csv*:**
 
-```{r}
+```{r, exercise=TRUE}
 zip_file_schema <- "stack-overflow-developer-survey-2023.zip"
 survey_schema <- read_csv(unz(zip_file_schema, 
                          'survey_results_schema.csv')) %>%
@@ -378,9 +365,9 @@ survey_schema <- read_csv(unz(zip_file_schema,
 survey_schema
 ```
 
-Now we can better rename those variables that are not easily understandable. Whenever you are creating a name for something in R, **be clear and descriptive**.
+Now we can use the `rename()` function to better rename those variables that are not easily understandable. Whenever you are creating a name for something in R, **be clear and descriptive**.
 
-```{r}
+```{r, exercise=TRUE}
 survey_cleaned %>%
   colnames()
 
@@ -395,7 +382,7 @@ lookup <- c(salary_usd = "converted_comp_yearly",
 
 #rename columns
 survey_renamed <- survey_cleaned %>%
-  rename(all_of(lookup))
+  ____(all_of(lookup))
 
 survey_renamed %>%
   colnames()
@@ -403,7 +390,7 @@ survey_renamed %>%
 
 Let's have a look at the variable `coding_as_hobby`:
 
-```{r}
+```{r, exercise=TRUE}
 survey_renamed %>%
   count(coding_as_hobby) %>%
    arrange(desc(n))
@@ -411,10 +398,10 @@ survey_renamed %>%
 
 There are lots of values and in this case it would be much easier to make this variable binary (`yes`- the respondent codes outside of work (as hobby); `no`- the respondent doesn't code outside of work). When we want to add and/or change variables we can use `mutate()` from the *dplyr* package. We grab `data_clean`, and create a variable called `coding_as_hobby_clean` using the `coding_as_hobby` variable and assign it back into `data_clean`. The benefit is in the readability of the code. We repeat things like the name of the data frame much less:
 
-```{r}
+```{r, exercise=TRUE}
 #map each value to either “yes” or “no”
 survey_hobby <- survey_renamed %>% 
-  mutate(coding_as_hobby_clean = case_when(
+  ____(coding_as_hobby_clean = case_when(
     grepl("I don’t code outside of work", coding_as_hobby) ~ "no",
     grepl("Bootstrapping a business", coding_as_hobby) ~ "no",
     grepl("Freelance/contract work", coding_as_hobby) ~ "no",
@@ -441,18 +428,5 @@ survey_hobby %>%
   ____(aes(x = ____)) +
   theme_classic() 
 ```
-
-```{r bar_plot-solution}
-# coding_as_hobby variable
-survey_hobby %>%
-  ggplot() + 
-  geom_bar(aes(x = coding_as_hobby)) +
-  theme_classic() #a classic-looking theme, with x and y axis lines and no gridlines
-
-# coding_as_hobby_clean variable
-survey_hobby %>%
-  ggplot() + 
-  geom_bar(aes(x = coding_as_hobby_clean)) +
-  theme_classic() 
-```
 :::
+
