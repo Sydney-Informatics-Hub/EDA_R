@@ -3,6 +3,7 @@ title: "Exploratory Data Analysis in R"
 subtitle: "Tidy datasets are all alike, but every messy dataset is messy in its own way"
 author: "Sydney Informatics Hub"
 output: learnr::tutorial
+allow_skip: false
 toc: true
 toc-depth: 4
 theme: "readable"
