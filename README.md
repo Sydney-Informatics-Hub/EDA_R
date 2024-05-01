@@ -36,8 +36,8 @@ The tutorial automatically preserve work done within it, so if you work on a few
 
 ### For the trainer
 
-Introduction slides for the tutorials are ...
-Instructions for adding new tutorials are [here](https://education.rstudio.com/blog/2020/09/delivering-learnr-tutorials-in-a-package/).
+-   Introduction slides for the tutorials are [here](https://github.com/Sydney-Informatics-Hub/EDAinR/blob/main/slides/EDAinR.pptx);
+-   Instructions for adding new tutorials are [here](https://education.rstudio.com/blog/2020/09/delivering-learnr-tutorials-in-a-package/).
 
 ## Code of Conduct
 
