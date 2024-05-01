@@ -234,7 +234,7 @@ A dataset is messy or clean/tidy depending on how rows and columns are matched u
 
 > Ref. [*Hadley Wickham's 2014 "Tidy Data" paper in the Journal of Statistical Software*](https://vita.had.co.nz/papers/tidy-data.pdf)
 
-![](images/tidy_data.png){width="50%"}
+![](images/tidy_data.png){width="70%"}
 
 **Messy data** is any other arrangement of the data. There are common problems that can arise when dealing with messy datasets. There are a number of actions you can take on a dataset to tidy the data depending on the problem. These include: *filtering*, *transforming*, *modifying variables*, *aggregating the data*, and *sorting the order of the observations*. We will see some of this later in this tutorial.
 
@@ -242,7 +242,7 @@ Here is a [link](https://ds4biomed.tech/clean-data-tidy) to some material you ca
 
 #### It's your turn!
 
-Have a look at your `survey_raw` object. It is stored as a tibble.
+Have a look at your `survey_raw` object. It is stored as a *tibble*.
 
 > Tibbles have a refined print method that shows only the first 10 rows, and all the columns that fit on screen. This makes it much easier to work with large data. In addition to its name, each column reports its type. Tibbles are designed so that you don't accidentally overwhelm your console when you print large data frames.
 
@@ -254,7 +254,7 @@ ____
 
 Because the data is in tibble format, we can gain a lot of information by just viewing the data itself.
 
-![](images/tibble.png){width="50%"}
+![](images/tibble.png){width="80%"}
 
 In this course, we'll be using **tidyverse** packages for getting to know your data, manipulating it, and visualizing it. The tidyverse is a collection of R packages designed for data science that share common APIs and an underlying philosophy. When you type library(tidyverse), what you're doing is loading this collection of related packages for handling data using tidy data principles. These packages include *ggplot2* for data visualization, and *dplyr* and *tidyr* for data manipulation and transformation. During this course, we'll point out when we use functions from these different packages.
 
@@ -273,7 +273,7 @@ Data cleaning is an iterative process:
 -   We might improve or find a better way;
 -   There isn't always a clear place to start, but we have to start somewhere.
 
-![The iterative process of EDA](images/research_framework.png){width="50%"}
+![The iterative process of EDA](images/research_framework.png){width="70%"}
 
 One good place to start is getting an overview of the dataset and use `glimpse()` to check for *data-type constraints*.
 
@@ -312,9 +312,10 @@ survey_cleaned <- clean_names(survey_raw)
 
 ### Get a glimpse of your data
 
-The `glimpse()` function of the *dplyr* package can help you to see what data you are working with. It prints for you columns running down the page, and data running across. This makes it possible to see every column in your data frame:
+The `glimpse()` function of the *dplyr* package can help you to see what data you are working with. It prints for you columns running down the page, and data running across. 
+This makes it possible to see every column in your data frame:
 
-![](images/glimpse.png){width="50%"}
+![](images/glimpse.png){width="70%"}
 
 ```{r glimpse, exercise=TRUE}
 survey_cleaned %>%
@@ -390,7 +391,7 @@ survey_renamed %>%
    arrange(desc(n))
 ```
 
-There are lots of values and in this case it would be much easier to make this variable binary (`yes`- the respondent codes outside of work (as hobby); `no`- the respondent doesn't code outside of work). When we want to add and/or change variables we can use `mutate()` from the *dplyr* package. We grab `data_clean`, and create a variable called `coding_as_hobby_clean` using the `coding_as_hobby` variable and assign it back into `data_clean`. The benefit is in the readability of the code. We repeat things like the name of the data frame much less:
+There are lots of values and in this case it would be much easier to make this variable binary (`yes`- the respondent codes outside of work (as hobby); `no`- the respondent doesn't code outside of work). When we want to add and/or change variables we can use `mutate()` from the *dplyr* package. We grab `survey_renamed`, and create a variable called `coding_as_hobby_clean` using the `coding_as_hobby` variable and assign it back into `survey_hobby`. The benefit is in the readability of the code. We repeat things like the name of the data frame much less:
 
 ```{r mutate, exercise=TRUE}
 #map each value to either “yes” or “no”
@@ -504,7 +505,7 @@ You might have noticed that, in our original dataset, we had 2 numerical variabl
 
 There are different ways we can quickly inspect our dataset. `skim()` is an alternative to `summary()`, quickly providing a broad overview of your dataset. The results of `skim()` are printed horizontally, with one section per variable type and one row per variable:
 
-![](images/skim.png){width="60%"}
+![](images/skim.png){width="80%"}
 
 ```{r skim, exercise=TRUE}
 survey_empl_cleaned %>%
@@ -711,7 +712,7 @@ Cleaning your data essentially is getting to know your data in greater detail to
 
 Sometimes outliers are data entry errors, sometimes they are simply values at the extremes that happened to be observed in this data collection, and other times they suggest important new discoveries.
 
-Let's use the `geom_histogram()` functio to create a histogram with salary on the x-axis:
+Let's use the `geom_histogram()` function to create a histogram with salary on the x-axis:
 
 ```{r hist, exercise=TRUE}
 p <- survey_sel %>%
@@ -963,7 +964,7 @@ survey_remote %>%
 
 Here we see that the data are skewed right, given the shift in values away from the right, leading to a long right tail. Here, most of the values are at the lower end of the range.
 
-![](images/skewed_dist.png){width="50%"}
+![](images/skewed_dist.png){width="60%"}
 
 Let's replace the missing values in the `salary_usd` variable with the median value of `salary_usd` for each country that we had previously calculated:
 
@@ -1049,7 +1050,7 @@ For more informations on missing values and imputation visit this [link](https:/
 -   how you handle missing values can impact the analysis and interpretation of the data;
 -   `gg_miss_upset()` function plots missingness patterns across variables;
 -   plotting missingness patterns across different variables can provide insights into whether missing data occurs systematically or at random;
--   scatterplots (geom_point()) and correlations plots (ggcorr()) visualise the relationship between variables;
+-   scatterplots (`geom_point()`) and correlations plots (`ggcorr()`) visualise the relationship between variables;
 -   analysis of the relationships between variables provides information that is important to inform next steps.
 
 ## Verifying
@@ -1108,11 +1109,11 @@ There are a couple of other things that you will need to know and that are not c
 
 -   **Joining data sets**: This is common in many situations including health records and longitudinal studies. Within the *dplyr* package there are four main joining functions: `inner_join()`, `left_join()`, `right_join()` and `full_join()`. Each join combines the data in slightly different ways. Please have a look at this [link](https://tysonbarrett.com/Rstats/chapter-2-working-with-and-cleaning-your-data.html#joining-merging) for additional resources;
 
-![](images/Joining.jpg){width="50%"}
+![](images/Joining.jpg){width="70%"}
 
 -   **Reshaping your dataset**: converting your data from *wide-to-long* or from *long-to-wide* data formats. The two most pertinent functions withing the `tidyr` package to reshaping data are: `pivot_wider()` and `pivot_longer()`. Please have a look at this [link](https://jhudatascience.org/tidyversecourse/wrangle-data.html#reshaping-the-data) for additional resources.
 
-![](images/reshape.png){width="70%"}
+![](images/reshape.png){width="90%"}
 
 ## What's next
 
