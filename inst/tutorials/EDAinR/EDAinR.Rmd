@@ -543,10 +543,12 @@ survey_prof %>%
 `years_code` is reported as a categorical variables. Can you convert it to be numeric?
 
 ```{r code, exercise=TRUE}
-#list all the possible values
+#list and inspect all the possible values
 survey_prof %>%
   ____(years_code)
+```
 
+```{r code2, exercise=TRUE}
 #convert characters to numbers and separately convert special values
 survey_code <- survey_prof %>%
  ____(years_code_clean = case_when(
@@ -618,11 +620,13 @@ If there were new missing values, then you would know there was a mistake in you
 `age` is reported here in age ranges and is a categorical variables that is ordinal. Can you convert it into a factor?
 
 ```{r age, exercise=TRUE}
-#list all the possible values for the variable age
+#list and inspect all the possible values for the variable age
 survey_company %>% 
   tabyl(____) %>%
   adorn_pct_formatting() 
+```
 
+```{r age2, exercise=TRUE}
 survey_age <- survey_company %>%
   mutate(age_clean = ____(age,
                                levels = c("Under 18 years old",
