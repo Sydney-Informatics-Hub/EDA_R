@@ -234,19 +234,18 @@ A dataset is messy or clean/tidy depending on how rows and columns are matched u
 
 -   Each cell is a single measurement.
 
-> Ref. [*Hadley Wickham's 2014 "Tidy Data" paper in the Journal of Statistical Software*](https://vita.had.co.nz/papers/tidy-data.pdf)
-
 ![](images/tidy_data.png){width="70%"}
 
 **Messy data** is any other arrangement of the data. There are common problems that can arise when dealing with messy datasets. There are a number of actions you can take on a dataset to tidy the data depending on the problem. These include: *filtering*, *transforming*, *modifying variables*, *aggregating the data*, and *sorting the order of the observations*. We will see some of this later in this tutorial.
 
 Here is a [link](https://ds4biomed.tech/clean-data-tidy) to some material you can use to better understand how to tidy messy datasets.
 
+
 #### It's your turn!
 
-Have a look at your `survey_raw` object. It is stored as a *tibble*.
+Have a look at your `survey_raw` object. It is stored as a **tibble**.
 
-> Tibbles have a refined print method that shows only the first 10 rows, and all the columns that fit on screen. This makes it much easier to work with large data. In addition to its name, each column reports its type. Tibbles are designed so that you don't accidentally overwhelm your console when you print large data frames.
+Tibbles have a refined print method that shows only the first 10 rows, and all the columns that fit on screen. This makes it much easier to work with large data. In addition to its name, each column reports its type. Tibbles are designed so that you don't accidentally overwhelm your console when you print large data frames.
 
 Is your dataset tidy or messy?
 
@@ -254,7 +253,7 @@ Is your dataset tidy or messy?
 ____
 ```
 
-Because the data is in tibble format, we can gain a lot of information by just viewing the data itself.
+*Hint*: Because the data is in tibble format, we can gain a lot of information by just viewing the data itself.
 
 ![](images/tibble.png){width="80%"}
 
@@ -275,7 +274,7 @@ Data cleaning is an iterative process:
 -   We might improve or find a better way;
 -   There isn't always a clear place to start, but we have to start somewhere.
 
-![The iterative process of EDA](images/research_framework.png){width="70%"}
+![](images/research_framework.png){width="70%"}
 
 One good place to start is getting an overview of the dataset and use `glimpse()` to check for *data-type constraints*.
 
