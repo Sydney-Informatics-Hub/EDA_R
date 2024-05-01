@@ -1112,7 +1112,7 @@ There are a couple of other things that you will need to know and that are not c
 
 -   **Reshaping your dataset**: converting your data from *wide-to-long* or from *long-to-wide* data formats. The two most pertinent functions withing the `tidyr` package to reshaping data are: `pivot_wider()` and `pivot_longer()`. Please have a look at this [link](https://jhudatascience.org/tidyversecourse/wrangle-data.html#reshaping-the-data) for additional resources.
 
-![](images/reshape.png){width="50%"}
+![](images/reshape.png){width="70%"}
 
 ## What's next
 
