@@ -7,7 +7,10 @@ Learn Exploratory Data Analysis in the browser or locally in your RStudio IDE wi
 You can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
+#install.packages("pak")
+pak::pkg_install("Sydney-Informatics-Hub/usydColours")
+
+#install.packages("devtools")
 devtools::install_github("Sydney-Informatics-Hub/EDAinR")
 ```
 
