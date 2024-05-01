@@ -204,11 +204,12 @@ EDA lacks a formal structure with a strict set of rules. In the early stages of 
 ## Import your data
 
 We can read .csv files into R using `read_csv()`. The first argument is the most important: the path to the file. You can think about the path as the address of the file: the file is called `survey_results_public.csv` and it is within the `stack-overflow-developer-survey-2023.zip` file.
+The `survey_results_public.csv` is already loaded within this tutorial as the `survey_raw` object using the code below:
 
 ```{r read_csv, exercise=TRUE}
 survey_zip_file <- "stack-overflow-developer-survey-2023.zip"
 
-survey_raw <- readr::____(unz(survey_zip_file, 
+survey_raw <- readr::read_csv(unz(survey_zip_file, 
                          'survey_results_public.csv'))
 ```
 
