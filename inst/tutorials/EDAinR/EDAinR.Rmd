@@ -200,7 +200,7 @@ The *Stack Overflow Developer Survey* is a highly anticipated annual event that 
 
 This is the voice of the developer. Analysts, IT leaders, reporters, and other developers turn to this report to stay up to date with the evolving developer experience, technologies that are rising or falling in favor, and to understand where tech might be going next.
 
-EDA lacks a formal structure with a strict set of rules. In the early stages of EDA you are encouraged to explore every idea that comes to mind. While some of these ideas will prove fruitful, others may lead to dead ends. As your exploration continues, you will narrow down a few insightful findings that you'll eventually write up and communicate to others.
+In the early stages of EDA you are encouraged to explore every idea that comes to mind, which is usually guided by your research question. While some of the early ideas will prove fruitful, others may lead to dead ends. As your exploration continues, you will narrow down a few insightful findings that you'll eventually write up and communicate to others.
 
 ## Import your data
 
