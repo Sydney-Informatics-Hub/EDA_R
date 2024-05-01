@@ -4,10 +4,12 @@ subtitle: "Tidy datasets are all alike, but every messy dataset is messy in its 
 author: "Sydney Informatics Hub"
 output:
   learnr::tutorial:
-  progressive: true
-  allow_skip: false
-  theme: "readable"
+    progressive: true
+    allow_skip: false
+    theme: "readable"
 runtime: shiny_prerendered
+description: >
+  This tutorial provides a step-by-step guideline, a cheat sheet, that walks through the quality checks to be applied for a successfull Exploratory Data Analysis (EDA) in R.
 ---
 
 ```{r setup, include=FALSE}
