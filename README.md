@@ -43,7 +43,7 @@ The tutorial automatically preserve work done within it, so if you work on a few
 
 Please note that this package is released with a [Code of Conduct](https://pages.github.sydney.edu.au/informatics/sih_codeofconduct/). By contributing to this package, you agree to abide by its terms.
 
-References:
+#### References:
 
 -   [***R for Researchers: An Introduction**, Tyson S. Barrett, PhD*](https://tysonbarrett.com/Rstats/index.html);
 -   [***Tidyverse Skills for Data Science**, Carrie Wright, Shannon E. Ellis, Stephanie C. Hicks and Roger D. Peng*](https://jhudatascience.org/tidyversecourse/);
