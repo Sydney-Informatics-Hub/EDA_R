@@ -42,3 +42,11 @@ The tutorial automatically preserve work done within it, so if you work on a few
 ## Code of Conduct
 
 Please note that this package is released with a [Code of Conduct](https://pages.github.sydney.edu.au/informatics/sih_codeofconduct/). By contributing to this package, you agree to abide by its terms.
+
+References:
+
+-   [***R for Researchers: An Introduction**, Tyson S. Barrett, PhD*](https://tysonbarrett.com/Rstats/index.html);
+-   [***Tidyverse Skills for Data Science**, Carrie Wright, Shannon E. Ellis, Stephanie C. Hicks and Roger D. Peng*](https://jhudatascience.org/tidyversecourse/);
+-   [***R Software Handbook Evaluation, Statistics, and Methodology** - University of Tennessee, Knoxville*](https://bookdown.org/aschmi11/RESMHandbook/);
+-   [***R for Data Science (2e)**, Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund*](https://r4ds.hadley.nz/).
+-   [*Hadley Wickham's 2014 "Tidy Data" paper in the Journal of Statistical Software*](https://vita.had.co.nz/papers/tidy-data.pdf)
